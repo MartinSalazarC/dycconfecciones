@@ -2,11 +2,11 @@
 <?php
 function f_headermenu()
 {
-	$EnlaceHome = "http://localhost/dyccompe";
-	$EnlaceNuestraEmpresa = "http://localhost/dyccompe/pgempresa.php";
-	$EnlaceTiendas = "http://localhost/dyccompe/pgtiendas.php";
-	$EnlaceContacto = "http://localhost/dyccompe/contacto.php";
-	$EnlaceMiCuenta = "http://localhost/dyccompe/softwork/index.php";
+	$EnlaceHome = "http://localhost/dyccompefinal";
+	$EnlaceNuestraEmpresa = "http://localhost/dyccompefinal/empresa.php";
+	$EnlaceTiendas = "http://localhost/dyccompefinal/tiendas.php";
+	$EnlaceContacto = "http://localhost/dyccompefinal/contacto.php";
+	$EnlaceMiCuenta = "http://localhost/dyccompefinal/softwork/index.php";
 
 	echo "
 			<!-- Logo + Menu -->
@@ -89,9 +89,9 @@ function f_footer()
 	$EnlaceFacebook = "https://www.facebook.com/unifomes/?fref=ts";
 	$EnlaceInstagram = "https://www.facebook.com/unifomes/?fref=ts";
 	$EnlaceYoutube = "https://www.youtube.com/watch?v=fGbx8eGk0A0";
-	$EnlaceLibroReclamo = "http://localhost/dyccompe/libroreclamo.php";
-	$EnlaceConsultaReclamo = "http://localhost/dyccompe/consultareclamo.php";
-	$EnlaceContacto = "http://localhost/dyccompe/contacto.php";
+	$EnlaceLibroReclamo = "http://localhost/dyccompefinal/libroreclamo.php";
+	$EnlaceConsultaReclamo = "http://localhost/dyccompefinal/consultareclamo.php";
+	$EnlaceContacto = "http://localhost/dyccompefinal/contacto.php";
 
 	echo "
 		<div class='container'>
