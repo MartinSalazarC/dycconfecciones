@@ -105,7 +105,7 @@ $xajax->configure('javascript URI','xajax/');
 				<div class="row cuerpo justify-content-center">
 					<div class="col-12 col-md-10">
 						<div class='row justify-content-center mt-4'>
-							<div class='col-3 col-md-1 justify-content-center text-center'><img src='dycImages/libroreclamaciones.png' width='60'></div>
+							<div class='col-3 col-md-1 justify-content-center text-center'><img src='img/libroreclamacion.png' width='60'></div>
 							<div class='col-9 col-md-11 textTitulo'>LIBRO DE RECLAMACIONES</div>
 						</div>
 						<hr>

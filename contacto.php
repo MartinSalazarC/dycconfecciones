@@ -125,7 +125,7 @@ $xajax->configure('javascript URI','xajax/');
 					</div>
 		      <div class='row justify-content-center mt-2'>
 						<div class='col-12 col-lg-3 justify-content-center mt-1 order-1 order-lg-1 text-center textContenido01min'>
-							<img src="dycImages/contactenos3.png" width="198" height="180">
+							<img src="img/contacto01.png" width="198" height="180">
 							<br><br><b>TEL&Eacute;FONOS:</b> 944494242 / 944414941<br><br><b>Email:</b> dycconfecciones@hotmail.com
 		        </div>
 						<div class='col-12 col-lg-7 justify-content-center mt-1 order-2 order-lg-2'>

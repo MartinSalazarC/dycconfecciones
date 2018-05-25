@@ -8,7 +8,7 @@ include_once('libs/f_headfooter.php');
 include_once('libs/f_generalphp.php');
 require_once("xajax/xajax_core/xajax.inc.php" );
 
-function f_listareclamo($form)
+function f_lisreclamo($form)
 {	
 	$respuesta = new xajaxResponse();
 	$respuesta->setCharacterEncoding('ISO-8859-1');
@@ -208,8 +208,15 @@ function f_conreclamo($codigo)
 			<div class='card-body'>
 				<h6>
 					<b>Respuesta del Reclamo</b>
-				</h6>
-				<form name = 'frmRptaRec' action='' method='post' class='justify-content-center'>
+				</h6>";
+				
+	if ($d_detRec[20] == 'D023')
+		$divCpo.= "
+				<div class='alert alert-warning mt-3'>
+					<strong>Aviso</strong> Aún no ha sido registrada una respuesta al reclamo. 
+				</div>";
+	
+	$divCpo.= "	<form name = 'frmRptaRec' action='' method='post' class='justify-content-center'>
 					<div class='form-group row justify-content-around'>
 						<div class='col-12 col-sm-5 mb-1'>
 							<label for='txtTipDoc' class='textDescripcion01'>Fecha de Registro</label>
@@ -229,6 +236,12 @@ function f_conreclamo($codigo)
 				</form>
 			</div>
 		</div>
+		<br>
+		<div class='row justify-content-center'>
+			<div class='col-4 text-center'>
+				<input name='cmdRetorna' type='button' class='btn btn-info btn-sm textBotonMin btn-block' value='Retorna' onClick='xajax_f_retreclamo();' />
+			</div>
+		</div>
 		<br>";
 		
 		$divFrm = "";
@@ -237,10 +250,56 @@ function f_conreclamo($codigo)
 		$respuesta->Assign("divFrm", "innerHTML", $divFrm);
 		return $respuesta;
 }
+function f_retreclamo()
+{
+	$respuesta = new xajaxResponse();
+	$respuesta->setCharacterEncoding('ISO-8859-1');
+	
+	$divCpo = "";
+	$divFrm = "
+		<div class='row justify-content-center mt-2'>
+			<div class='col-10 col-md-8 text-center'>
+				<form action='' method='post' name='frmConReclamo' class='justify-content-center'>	
+					<div class='form-group row'>
+						<div class='col-12 col-md-5 col-lg-5 text-left'>
+							<label for='slcTipDoc' class='textDescripcion01'>Tipo de Documento</label>
+							<select name='slcTipDoc' id='slcTipDoc' class='form-control textContenido01 form-control-sm'>
+								<option value=''>[Documento]</option>";
+								
+					$link = conectar_db();
+					$c_tipdoc = "call sp_con_mae_tabla_det_x_cod_tabla('P001')";
+					$r_tipdoc = mysqli_query($link, $c_tipdoc);
+					while ($d_tipdoc = mysqli_fetch_array($r_tipdoc))
+					{
+						$divFrm.= "	<option value='".$d_tipdoc[0]."'>".$d_tipdoc[4]."</option>";
+					}
+					desconectar_db();
+	$divFrm.= "				</select>
+						</div>
+						<div class='col-12 col-md-5 col-lg-5 text-left'>
+							<label for='txtNroDoc' class='textDescripcion01'>N&uacute;mero de Documento</label>
+							<input type='number' name='txtNroDoc' id='txtNroDoc' class='form-control form-control-sm textContenido01' maxlength='20' onKeyPress='return onlyNumeric(event);' placeholder='N&uacute;mero' >
+						</div>
+						<div class='col-12 col-md-2 col-lg-2 mt-4 text-center'>
+							<button name='cmdBuscar' type='button' class='btn btn-success textBotonMin mr-3' title='Buscar' onClick='xajax_f_lisreclamo(xajax.getFormValues(frmConReclamo));' >Consultar</button>
+						</div>
+					</div>
+				</form>
+			</div>
+		</div>
+		<br>";
+	
+	
+	$respuesta->Assign("divCpo", "innerHTML", $divCpo);
+	$respuesta->Assign("divFrm", "innerHTML", $divFrm);
+	return $respuesta;
+}
+
 
 $xajax=new xajax();
-$xajax->register(XAJAX_FUNCTION, "f_listareclamo");
+$xajax->register(XAJAX_FUNCTION, "f_lisreclamo");
 $xajax->register(XAJAX_FUNCTION, "f_conreclamo");
+$xajax->register(XAJAX_FUNCTION, "f_retreclamo");
 $xajax->processRequest();
 $xajax->configure('javascript URI','xajax/');
 ?>
@@ -259,7 +318,7 @@ $xajax->configure('javascript URI','xajax/');
 			$xajax->printJavascript('xajax/');
 		?>
 	</head>
-	<body>
+	<body onLoad='xajax_f_retreclamo();'>
 		<header>
 			<div class='container'>
 				<?php
@@ -273,7 +332,7 @@ $xajax->configure('javascript URI','xajax/');
 				<div class="row cuerpo justify-content-center">
 					<div class="col-12 col-md-11">
 						<div class='row justify-content-center mt-4'>
-							<div class='col-3 col-md-1 justify-content-center text-center'><img src='dycImages/libroreclamaciones.png' width='60'></div>
+							<div class='col-3 col-md-1 justify-content-center text-center'><img src='img/libroreclamacion.png' width='60'></div>
 							<div class='col-9 col-md-11 textTitulo'>CONSULTA DE RECLAMOS</div>
 						</div>
 						<hr>
@@ -286,39 +345,7 @@ $xajax->configure('javascript URI','xajax/');
 							</div>
 						</div>
 						<br>
-						<div id="divFrm">
-							<div class='row justify-content-center mt-2'>
-								<div class='col-10 col-md-8 text-center'>
-									<form action="" method="post" name="frmConReclamo" class="justify-content-center">	
-										<div class='form-group row'>
-											<div class='col-12 col-md-5 col-lg-5 text-left'>
-												<label for='slcTipDoc' class='textDescripcion01'>Tipo de Documento</label>
-												<select name='slcTipDoc' id='slcTipDoc' class='form-control textContenido01 form-control-sm'>
-													<option value=''>[Documento]</option>
-										<?php
-										$link = conectar_db();
-										$c_tipdoc = "call sp_con_mae_tabla_det_x_cod_tabla('P001')";
-										$r_tipdoc = mysqli_query($link, $c_tipdoc);
-										while ($d_tipdoc = mysqli_fetch_array($r_tipdoc))
-										{
-											echo "	<option value='".$d_tipdoc[0]."'>".$d_tipdoc[4]."</option>";
-										}
-										desconectar_db();
-										?>
-												</select>
-											</div>
-											<div class='col-12 col-md-5 col-lg-5 text-left'>
-												<label for='txtNroDoc' class='textDescripcion01'>N&uacute;mero de Documento</label>
-												<input type='number' name='txtNroDoc' id='txtNroDoc' class='form-control form-control-sm textContenido01' maxlength='20' onKeyPress='return onlyNumeric(event);' placeholder='N&uacute;mero' >
-											</div>
-											<div class='col-12 col-md-2 col-lg-2 mt-4 text-center'>
-												<button name='cmdBuscar' type='button' class='btn btn-success textBotonMin mr-3' title='Buscar' onClick="xajax_f_listareclamo(xajax.getFormValues(frmConReclamo));" >Consultar</button>
-											</div>
-										</div>
-									</form>
-								</div>
-							</div>
-						</div>
+						<div id="divFrm"></div>
 						<div id="divCpo" class="justify-content-center"></div>
 					</div>
 				</div>

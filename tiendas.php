@@ -29,90 +29,123 @@ include_once('libs/f_headfooter.php');
 
 	<main>
 		<div class="container">
-			<!-- Seccion xxxxxxxx -->
 			<div class="row cuerpo">
-				<div class="col">
-					<table width="800" border="0" align="center">
-						<tr>
-							<td height="90"></td>
-						</tr>
-						<tr>
-							<td class="textCabTextos" colspan="2">CONT&Aacute;CTENOS</td>
-						</tr>
-						<tr>
-							<td colspan="2"><hr></td>
-						</tr>
-					</table>
-					<table width="800" border="0" align="center">
-						<tr>
-							<td colspan="3"  class="textTextos" >Para mayores detalles de nuestros productos, consultas, cotizaciones, o si deseas saber sobre los convenios con los colegios y universidades de nuestra región, puedes visitarnos en nuestras tiendas:</td>
-						</tr>
-						<tr>
-							<td width="33%">&nbsp;</td>
-							<td width="33%">&nbsp;</td>
-							<td width="33%">&nbsp;</td>
-						</tr>
-						<tr>
-							<td colspan='3'>
-								<table border='0' align='center' width='80%'>
-									<tr>
-										<td width='15%'></td>
-										<td width='35%'></td>
-										<td width='50%'></td>
-									</tr>
-						<?php
-						$link = conectar_db();
-						$c_local = "call sp_con_local_web()";
-						$r_local = mysqli_query($link, $c_local);
-						while($d_local = mysqli_fetch_array($r_local))
+				<div class="col mb-5">
+					<div class="row">
+						<div class="col-12 textTitulo">
+							NUESTRAS TIENDAS
+							<br>
+							<hr>
+						</div>
+					</div>
+					<div class="row">
+						<div class="col-12 textContenido02min">
+							Para mayores detalles de nuestros productos, consultas, cotizaciones, o si deseas saber sobre los convenios con los colegios y universidades de nuestra región, puedes visitarnos en nuestras tiendas:
+							<br>
+						</div>
+					</div>
+					<?php
+					
+					$link = conectar_db();
+					$c_local = "call sp_con_local_web()";
+					$r_local = mysqli_query($link, $c_local);
+					$n_local = mysqli_num_rows($r_local);
+					
+					if ($n_local % 2 == 0)
+					{
+						$num_filas = $n_local / 2;
+						$ind_par = 'S';
+					}
+					else
+					{
+						$num_filas = ($n_local + 1) / 2;
+						$ind_par = 'N';
+					}
+					
+					for ($i = 1; $i <= $num_filas; $i++)
+					{
+						if ($i < $num_filas or ($i == $num_filas and $ind_par == 'S'))
 						{
+							//pinto 2
+							$d_local = mysqli_fetch_array($r_local);
 							echo "
-									<tr>
-										<td align='center' class='textCabTabla' colspan='2'>".$d_local[1]."</td>
-										<td rowspan='5' align='center'><iframe src='".$d_local[3]."' width='100%' height='100%' frameborder='0' style='border:0' allowfullscreen></iframe></td>
-									</tr>
-									<tr>
-										<td colspan='2'>&nbsp;</td>
-									</tr>
-									<tr height='25'>
-										<td class='textDescripcion' valign='top'>Direcci&oacute;n:</td>
-										<td class='textDetalle' valign='top'>".$d_local[2]."</td>
-									</tr>
-									<tr height='25'>
-										<td class='textDescripcion' valign='top'>Horario:</td>
-										<td class='textDetalle' valign='top'>";
-						$link = conectar_db();
-						$c_hora = "call sp_con_horario_x_codlocal('".$d_local[0]."', 'A')";
-						$r_hora = mysqli_query($link, $c_hora);
-						while($d_hora = mysqli_fetch_array($r_hora))
+								<div class='card-group mt-3'>
+											<div class='card border-warning'>
+												<div class='card-header textTitulo'>".$d_local[1]."</div>
+												<div class='text-center'><iframe src='".$d_local[3]."' width='90%' height='100%' frameborder='0' style='border:0' allowfullscreen ></iframe></div>
+												<div class='card-body'>
+													<p class='textContenido02min'><b><u>Direcci&oacute;n</u>: </b>".$d_local[2]."</p>
+													<p class='textContenido02min'><b><u>Tel&eacute;fono</u>: </b>".$d_local[4]."</p>
+													<p class='textContenido02min'><b><u>Horario</u>: </b></p>";
+							$link = conectar_db();
+							$c_hora = "call sp_con_horario_x_codlocal('".$d_local[0]."', 'A')";
+							$r_hora = mysqli_query($link, $c_hora);
+							while($d_hora = mysqli_fetch_array($r_hora))
+							{
+								echo  "<p class='textContenido02min'>&nbsp;&nbsp;&nbsp;".$d_hora[1].", ".$d_hora[2]."<p>";
+							}
+							desconectar_db();
+							
+							echo "
+												</div>
+											</div>";
+							$d_local = mysqli_fetch_array($r_local);
+							echo "		
+											<div class='card border-warning'>
+												<div class='card-header textSubTitulo'>".$d_local[1]."</div>
+												<div class='text-center'><iframe src='".$d_local[3]."' width='90%' height='100%' frameborder='0' style='border:0' allowfullscreen ></iframe></div>
+												<div class='card-body'>
+													<p class='textContenido02min'><b><u>Direcci&oacute;n</u>: </b>".$d_local[2]."</p>
+													<p class='textContenido02min'><b><u>Tel&eacute;fono</u>: </b>".$d_local[4]."</p>
+													<p class='textContenido02min'><b><u>Horario</u>: </b></p>";
+							$link = conectar_db();
+							$c_hora = "call sp_con_horario_x_codlocal('".$d_local[0]."', 'A')";
+							$r_hora = mysqli_query($link, $c_hora);
+							while($d_hora = mysqli_fetch_array($r_hora))
+							{
+								echo  "<p class='textContenido02min'>&nbsp;&nbsp;&nbsp;".$d_hora[1].", ".$d_hora[2]."<p>";
+							}
+							desconectar_db();
+							
+							echo "	
+												</div>
+											</div>
+								</div>";
+						}
+						else
 						{
-							echo  $d_hora[1].", ".$d_hora[2]."<br>";
+							//pinto 1
+							$d_local = mysqli_fetch_array($r_local);
+							echo "
+								<div class='row mt-3  justify-content-center'>
+									<div class='col-6'>
+										<div class='card border-warning'>
+											<div class='card-header textSubTitulo'>".$d_local[1]."</div>
+											<div class='text-center'><iframe src='".$d_local[3]."' width='90%' height='100%' frameborder='0' style='border:0' allowfullscreen ></iframe></div>
+											<div class='card-body'>
+												<p class='textContenido02min'><b><u>Direcci&oacute;n</u>: </b>".$d_local[2]."</p>
+												<p class='textContenido02min'><b><u>Tel&eacute;fono</u>: </b>".$d_local[4]."</p>
+												<p class='textContenido02min'><b><u>Horario</u>: </b></p>";
+							$link = conectar_db();
+							$c_hora = "call sp_con_horario_x_codlocal('".$d_local[0]."', 'A')";
+							$r_hora = mysqli_query($link, $c_hora);
+							while($d_hora = mysqli_fetch_array($r_hora))
+							{
+								echo  "<p class='textContenido02min'>&nbsp;&nbsp;&nbsp;".$d_hora[1].", ".$d_hora[2]."<p>";
+							}
+							desconectar_db();
+							
+							echo "
+											</div>
+										</div>
+									</div>
+								</div>";
+							
 						}
-						desconectar_db();
-							echo "								
-										</td>
-									</tr>
-									<tr height='25'>
-										<td class='textDescripcion' valign='top'>Tel&eacute;fono:</td>
-										<td class='textDetalle' valign='top'>".$d_local[4]."</td>
-									</tr>
-									<tr height='25'>
-										<td colspan='3'><hr></td>
-									</tr>
-									<tr height='20'>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-										<td>&nbsp;</td>
-									</tr>";
-						}
-						desconectar_db();
-						?>
-								</table>
-							</td>
-						</tr>
-					</table>
-				
-				
+					}
+					desconectar_db();
+					
+					?>
 				</div>
 			</div>
 		</div>
