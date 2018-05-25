@@ -14,7 +14,7 @@ function f_headermenu()
 				<!-- Logotipo -->
 				<div class='col-md-12 col-lg logo d-flex align-items-center justify-content-center justify-content-lg-start'>
 					<a href='".$EnlaceHome."'><img src='img/dyclogo.png' width='70px'></a>
-                    <span class='icono icon-dot'></span>
+                    &nbsp;&nbsp;&nbsp;
 					<p>D&C Confecciones</p>
 				</div>
 
