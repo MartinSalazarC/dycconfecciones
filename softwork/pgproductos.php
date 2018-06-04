@@ -1428,17 +1428,6 @@ $xajax->configure('javascript URI','dycXajax/');
 		<?php
 			$xajax->printJavascript('dycXajax/');  
 		?>
-		
-		<style>
-		
-		.columna {
-			background: #f2f2f2;
-			text-align:center;
-			padding: 10px;
-			border:1px solid #ffffff;
-		}
-		</style>
-		
 	</head>
 	<body onLoad='xajax_f_frmBusProductos();'>
 		<?php  menu();  ?>

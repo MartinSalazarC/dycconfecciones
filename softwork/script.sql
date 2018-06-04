@@ -125,3 +125,39 @@ DELIMITER ;
 
 /**********************************************************************************************************/
 
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `dyccompe_principal`.`sp_con_img_usuario`$$
+
+CREATE DEFINER=`dyccompe_admin`@`localhost` PROCEDURE `sp_con_img_usuario`(
+in vi_cod_usuario varchar(20)
+)
+BEGIN
+ 
+ select nom_arch_img from mae_usuario where cod_usuario = vi_cod_usuario;
+ 
+ END$$
+
+DELIMITER ;
+
+/**********************************************************************************************************/
+
+DELIMITER $$
+
+DROP PROCEDURE IF EXISTS `dyccompe_principal`.`sp_act_img_usuario`$$
+
+CREATE PROCEDURE `dyccompe_principal`.`sp_act_img_usuario`(
+in vi_cod_usuario varchar(20),
+in vi_nom_arch_img varchar(10)
+)
+BEGIN
+ 
+ update mae_usuario 
+ set nom_arch_img = vi_nom_arch_img
+ where cod_usuario = vi_cod_usuario;
+ 
+ select 1 as error from dual;
+ 
+ END$$
+
+DELIMITER ;
